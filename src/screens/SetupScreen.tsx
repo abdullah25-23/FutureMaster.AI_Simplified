@@ -1,7 +1,7 @@
 import { useApp } from '../state';
 import { class8SubjectOptions, effectiveStatus, effectiveType, fallbackResultType, isInternalType, matricSubjectOptions, resultStatuses, resultTypeOptions, RT } from '../data/academic';
 import { Btn, C, Chip, Disclosure, Input, Label, Screen, SelectionCard, Text } from '../components/ui';
-import { subjectOptions, studyGroups, futureFieldOptions } from '../data/content';
+import { studyGroups, futureFieldOptions } from '../data/content';
 import { careerAreas } from '../data/exploration';
 import { CareerAreaId } from '../types';
 
@@ -73,16 +73,6 @@ export default function SetupScreen() {
   return (
     <Screen title="Your studies & interests" subtitle="Step 2 of 2" onBack={back}
       footer={<Btn onClick={() => params.editProfile ? go('profile') : nav('intro')}>{params.editProfile ? 'Save Changes' : 'Continue'}</Btn>}>
-      <Block>
-        <Label>Favourite Subjects</Label>
-        <Multi options={subjectOptions} value={p.favouriteSubjects} onChange={v => updateProfile({ favouriteSubjects: v })} />
-      </Block>
-
-      <Disclosure title="Subjects you find difficult (optional)">
-        <Hint>This helps guide, never limit, your options.</Hint>
-        <Multi options={subjectOptions} value={p.difficultSubjects} onChange={v => updateProfile({ difficultSubjects: v })} />
-      </Disclosure>
-
       <div className="mb-5">
         <Text as="h3" className="font-semibold text-base mb-2">Which fields are you curious about?</Text>
         <Text tone="sub" className="text-xs leading-relaxed mb-3">Choose your first preference and, if you want, a second one. You can also choose 'I'm not sure yet.'</Text>
@@ -98,7 +88,7 @@ export default function SetupScreen() {
         <Text tone="muted" className="text-xs leading-relaxed mt-3">Optional · Choose up to two. Tap a selected card to remove it. This is only a starting point, not a career recommendation.</Text>
       </div>
 
-      {<Disclosure title="Study group & other ideas (optional)">
+      {p.generalInterests.includes('unsure') && <Disclosure title="Study group & other ideas (optional)">
         <Label>Study group (if applicable)</Label>
         <Single options={studyGroups} value={p.studyGroup} onChange={v => updateProfile({ studyGroup: v })} />
         <div className="mt-4"><Label>Other fields or degree ideas</Label></div>
